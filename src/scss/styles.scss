@@ -1,0 +1,22 @@
+// 1. 自定義變數 (例如：復古書卷色)
+$primary: #6f4e37; // 咖啡色
+$secondary: #a67b5b;
+$body-bg: #fdfaf7;
+
+// 2. 導入 Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// 3. 自定義額外樣式
+.hero-carousel img {
+  height: 60vh;
+  object-fit: cover;
+}
+
+section {
+  padding: 80px 0;
+}
+
+.footer {
+  background-color: $primary;
+  color: white;
+}
