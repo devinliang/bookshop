@@ -1,5 +1,5 @@
 // 1. 自定義變數 (例如：復古書卷色)
-$primary: #6f4e37; // 咖啡色
+$primary: #6f4e37; // 深咖啡色 (主色調)
 $secondary: #a67b5b;
 $body-bg: #fdfaf7;
 
@@ -224,5 +224,56 @@ $primary-light: lighten($primary, 40%);
   .carousel-caption {
       bottom: 15%; // 原本是 bottom: 1.25rem，往上提一點
       z-index: 15; // 層級低於大標題
+  }
+}
+
+// src/scss/styles.scss
+
+// ... (先前的代碼) ...
+
+// --- 本月推薦區塊特效 (Recommendations Hover Effect) ---
+#recommendations {
+
+  .recommend-item {
+    cursor: pointer; // 滑鼠移上去變手指形狀，暗示可點擊
+
+    // 圖片包裹容器
+    .recommend-img-box {
+      position: relative;
+      overflow: hidden; // 【關鍵】隱藏放大後超出的圖片部分
+      border-radius: 0.75rem; // 圓角設定
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08); // 預設的淺陰影
+      transition: all 0.4s ease; // 容器本身的過渡效果
+
+      // 圖片本體
+      img {
+        transition: transform 0.6s cubic-bezier(0.215, 0.610, 0.355, 1.000); // 設定較慢且平滑的放大動畫曲線
+        backface-visibility: hidden; // 避免動畫閃爍
+      }
+    }
+
+    // 書籍標題
+    .recommend-info h5 {
+        font-weight: 700;
+        transition: color 0.3s ease;
+    }
+
+    // --- 滑鼠移入效果 (Hover State) ---
+    &:hover {
+      // 1. 容器效果：陰影變深，並帶有淡淡的主題色(抹茶綠)光暈
+      .recommend-img-box {
+        box-shadow: 0 15px 35px rgba($primary, 0.25);
+
+        // 2. 圖片效果：緩慢放大 1.08 倍
+        img {
+           transform: scale(1.08);
+        }
+      }
+
+      // 3. 文字效果：標題變色
+      .recommend-info h5 {
+          color: $primary;
+      }
+    }
   }
 }
