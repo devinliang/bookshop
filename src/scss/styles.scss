@@ -20,3 +20,70 @@ section {
   background-color: $primary;
   color: white;
 }
+
+// 自定義變數
+$primary-light: lighten($primary, 40%);
+
+.bg-primary-light {
+  background-color: $primary-light;
+}
+
+#about-feature {
+  .main-img {
+    // 確保圖片高度比例與參考圖接近
+    min-height: 500px;
+    object-fit: cover;
+  }
+
+  .info-card {
+    position: absolute;
+    width: 250px;
+    z-index: 10;
+    
+    &-top {
+      top: 10%;
+      left: -20px;
+      // 模擬現代陰影
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    }
+
+    &-bottom {
+      bottom: 10%;
+      right: 0;
+      width: 280px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+    }
+
+    .icon-box {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 手機版調整：避免小卡片超出螢幕或疊得太亂
+  @media (max-width: 991.98px) {
+    .info-card {
+      position: relative;
+      width: 100%;
+      left: 0 !important;
+      right: 0 !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      margin-top: 1rem;
+    }
+  }
+}
