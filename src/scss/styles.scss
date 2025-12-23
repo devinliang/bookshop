@@ -39,7 +39,7 @@ $primary-light: lighten($primary, 40%);
     position: absolute;
     width: 250px;
     z-index: 10;
-    
+
     &-top {
       top: 10%;
       left: -20px;
@@ -85,5 +85,144 @@ $primary-light: lighten($primary, 40%);
       bottom: 0 !important;
       margin-top: 1rem;
     }
+  }
+}
+
+// src/scss/styles.scss
+
+// ... (前面的代碼保持不變) ...
+
+// --- 輪播圖客製化樣式 (Carousel Customization) ---
+
+// 1. 指示點 (Indicators - 下方圓點)
+.carousel-indicators {
+  bottom: 30px; // 稍微往上提一點，不要貼底
+
+  [data-bs-target] {
+    width: 12px;       // 設定寬度
+    height: 12px;      // 設定高度
+    border-radius: 50%; // 變成圓形 (原本是橫條)
+    background-color: $secondary; // 預設顏色：亞麻色
+    border: 2px solid transparent; // 增加透明邊框讓點擊區域大一點
+    opacity: 0.6;      // 非作用中時半透明
+    margin: 0 6px;     // 點與點之間的間距
+    transition: all 0.3s ease; // 平滑過渡效果
+
+    // 當前作用中的點
+    &.active {
+      background-color: $primary; // 作用中顏色：抹茶綠
+      opacity: 1;        // 不透明
+      transform: scale(1.2); // 稍微放大一點強調
+    }
+
+    &:hover {
+       opacity: 0.9;
+    }
+  }
+}
+
+// 2. 左右控制箭頭 (Controls arrows)
+// Bootstrap 的箭頭是透過 SVG 背景圖實作的，要改變顏色比較複雜。
+// 我們使用 CSS filter 濾鏡將預設的白色圖標轉色為我們的抹茶綠。
+// 這個濾鏡值是為了近似我們的 $primary (#769a6e) 顏色。
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(57%) sepia(13%) saturate(1156%) hue-rotate(64deg) brightness(97%) contrast(87%);
+  width: 2.5rem; // 稍微調大一點箭頭
+  height: 2.5rem;
+}
+
+// 調整控制區域的滑鼠游標反應
+.carousel-control-prev, .carousel-control-next {
+    opacity: 0.7; // 預設稍微透明
+    transition: opacity 0.3s ease;
+    &:hover {
+        opacity: 1; // 滑鼠移上去時變清楚
+    }
+}
+
+// src/scss/styles.scss
+
+// ... (先前的代碼) ...
+
+// --- 關於我們圖片特效 (About Us Image Effect) ---
+#about {
+  padding: 100px 0; // 增加一點上下留白
+
+  .about-image-box {
+    position: relative;
+    padding: 12px; // 圖片與外框之間的留白呼吸感
+    border: 2px solid rgba($secondary, 0.5); // 預設外框：半透明的亞麻色
+    border-radius: 1rem; // 外框圓角
+    transition: all 0.4s ease; // 平滑過渡效果
+
+    img {
+      border-radius: 0.5rem; // 圖片本身的圓角 (比外框小一點)
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08); // 圖片預設的淺陰影
+      transition: all 0.4s ease; // 圖片也要有過渡效果
+      backface-visibility: hidden; // 避免動畫時的閃爍
+    }
+
+    // --- 滑鼠移入效果 (Hover Effect) ---
+    &:hover {
+      border-color: $primary; // 外框變成抹茶綠
+      box-shadow: 0 10px 30px rgba($primary, 0.15); // 整個盒子加上淡淡的綠色光暈
+
+      img {
+        transform: scale(1.03); // 圖片輕微放大浮起
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15); // 圖片陰影加深，增加立體感
+      }
+    }
+  }
+}
+
+// src/scss/styles.scss
+
+// --- 首頁輪播圖大標題 (Hero Static Overlay) ---
+
+#heroCarousel {
+  // 確保父容器是相對定位 (Bootstrap 預設已有，寫上更保險)
+  position: relative;
+
+  .hero-static-overlay {
+    position: absolute; // 絕對定位，讓它脫離文件流疊加上去
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90vh; // 高度必須與圖片高度一致
+    z-index: 20; // 層級要比圖片和原本的 caption 高
+
+    // 【重要】讓滑鼠事件穿透過去
+    // 這樣底下的左右箭頭和指示點才能被點擊
+    pointer-events: none;
+
+    // 文字陰影，確保在淺色或深色圖片上都清晰可見
+    .text-shadow {
+      // 使用多層陰影來達到最佳清晰度：
+      // 第 1 層 (1px 1px 2px): 緊貼文字的深黑色陰影，製造銳利邊緣
+      // 第 2 層 (0 0 25px): 大範圍的柔和黑色光暈，將文字從背景中分離出來
+      text-shadow:
+        1px 1px 2px rgba(0, 0, 0, 0.9),
+        0 0 25px rgba(0, 0, 0, 0.7);
+    }
+
+
+    // 增加字距，更有日式氛圍
+    .letter-spacing-2 {
+        letter-spacing: 2px;
+    }
+
+    // 針對手機版的微調
+    @include media-breakpoint-down(md) {
+      h1.display-1 {
+        font-size: 3.5rem; // 手機上字體稍微縮小一點
+      }
+    }
+  }
+
+  // 調整原有的 caption 位置，避免跟大標題重疊太多
+  .carousel-caption {
+      bottom: 15%; // 原本是 bottom: 1.25rem，往上提一點
+      z-index: 15; // 層級低於大標題
   }
 }
